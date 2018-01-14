@@ -5,7 +5,7 @@
 ```
 npm install
 ```
-## Start
+## Start server
 ```
 npm start
 ```
