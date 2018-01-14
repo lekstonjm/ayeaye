@@ -1,6 +1,7 @@
 # ayeaye
 ## Introduction
-ayeaye is electronic music livecoding plateforme, based on the baudio/baudio-party and is inspired by supercollider and sonic-pi. It's a client/server REST application. It is in a very early development stage.
+ayeaye is electronic music livecoding plateforme, based on the baudio/baudio-party and is inspired by supercollider and sonic-pi. It's a client/server REST application. It is in a very early development stage. 
+__Warning! At this stage there is important security leaks. Please use it only for testing purpose and at your own risk__  
 
 
 ## Installation
