@@ -13,10 +13,10 @@ npm install
 ```
 npm start
 ```
-## Send request
+## Client request
 One can use curl to send GET/POST. Personaly, I prefer use Insomnia.
 ### Add a synthetizer definition
-http://localhost:5000/synthdefs/add
+POST http://localhost:5000/synthdefs/add
 
 __example__ 
 
@@ -32,7 +32,7 @@ Create a basic sinus oscillator sythetizer using a simple percusiv enveloppe
 ```
 
 ### Create a synthetizer based on a definition
-http://localhost:5000/synths/create
+POST http://localhost:5000/synths/create
 
 __example__
 
@@ -43,4 +43,14 @@ Create an instance of the sin osc with a frequency as of 330 herz
 	"props" : { "freq" : 330 }
 }
 ```
+### Remove all synths
+POST http://localhost:5000/synths/clear
+```
+{}
+```
 
+### List synthdefs
+GET http://localhost:5000/synthdefs
+
+### List synths
+GET http://localhost:5000/synths
