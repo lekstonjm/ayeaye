@@ -37,8 +37,10 @@ http://localhost:5000/synths/create
 __example__
 
 Create an instance of the sin osc with a frequency as of 330 herz 
+```
 {
 	"synthdef":"sin",
 	"props" : { "freq" : 330 }
 }
+```
 
