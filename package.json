@@ -1,0 +1,14 @@
+{
+    "name": "ayeaye",
+    "version": "0.1.0",
+    "description": "Live coding sound system using sox (see nodejs project : baudio, baudio-party and supercollider)",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "readable-stream": "~2.3.3",
+        "express": "~4.16.2"
+    },
+    "main": "main.js",
+    "scripts": {
+        "start": "node audio-server.js |  play -c 1 -r 44100 -t f32 -q --ignore-length -"
+    }
+}
