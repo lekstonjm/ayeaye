@@ -37,12 +37,15 @@ SynthDef.prototype.create = function(t,instance_props, name)
         this.enabled = true;
     }
 
-    Synth.prototype.generate = function(t) { 
-        return this.enabled?this.generator.call(this,this,t):0.0; 
+    Synth.prototype.generate = function(t) {  
+        return (this.enabled && this.generator !== undefined)?this.generator.call(this,this,t):0.0; 
     }
 
     Synth.prototype.control = function(t) { 
-        this.controller.call(this,this,t); 
+        if (this.controller !== undefined)
+        {
+            this.controller.call(this,this,t);
+        }    
     }
 
     var synth_name = "";
