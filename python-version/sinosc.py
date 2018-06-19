@@ -1,17 +1,17 @@
 import math
 from value_state import ValueState
-import composer
+from  composer import Composer
 
-class SinOsc(composer.ComposerFactory):
+class SinOsc():
     def __init__(self, freq = 440.0, amp = 1.0):
         self.freq = freq
         self.amp = amp
     def __call__(self, time):
         return ValueState(math.sin(2.0*math.pi*self.freq*time)*self.amp, False)
         
-class SinOscFactory(composer.ComposerFactory):
+class SinOscDef(Composer):
     def __init__(self, params = None):
-        composer.ComposerFactory.__init__(self,self)
+        Composer.__init__(self,self)
         self.params = params
     def __call__(self, time = 0.0, params = None):
         sinosc = SinOsc()
@@ -28,9 +28,10 @@ class SinOscFactory(composer.ComposerFactory):
 if __name__ == "__main__":
     from sys import stdin
     from sound import Sound
-    factory = SinOscFactory()
+    osc_def = SinOscDef()
     sound = Sound() 
-    sound.generator = factory(0.0, {"freq" : 220.0})
+    osc = osc_def(0.0, {"freq" : 220.0})
+    sound.generator = osc
     sound.start()
     sound.play()
     stdin.readline()

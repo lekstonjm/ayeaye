@@ -31,12 +31,12 @@ class Generator():
 if __name__ == "__main__":
     from sys import stdin
     from sound import Sound
-    from sinosc import SinOscFactory
-    from adsr import ADRSFactory
-    osc = SinOscFactory()
-    adsr = ADRSFactory({"a":0.01, "d":0.0, "s":0.0, "r":0.1, "dl":1.0})    
+    from sinosc import SinOscDef
+    from adsr import ADRSDef
+    sinosc = SinOscDef()
+    adsr = ADRSDef({"a":0.01, "d":0.0, "s":0.0, "r":0.1, "dl":1.0})    
     sound = Sound() 
-    generator = Generator(osc*adsr, [{"l":0.25,"p":{"freq":440.0}}, {"l":0.25,"p":{"freq":330.0}}])
+    generator = Generator(sinosc*adsr, [{"l":0.25,"p":{"freq":440.0}}, {"l":0.25,"p":{"freq":330.0}}])
     sound.generator = generator
     sound.start()
     sound.play()

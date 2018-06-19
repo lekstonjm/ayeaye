@@ -1,6 +1,6 @@
 
 from value_state import ValueState 
-import composer
+from composer import Composer
 class ADRS():
     def __init__(self, t0 = 0.0, a=0.04, d=0.1, s = 0.1, r = 0.1, dl = 0.6):
         self.t0 = t0
@@ -28,10 +28,10 @@ class ADRS():
             value = d / self.a            
         return ValueState(value, ended)
 
-class ADRSFactory(composer.ComposerFactory):
+class ADRSDef(Composer):
     def __init__(self, params = None):
         self.params = params
-        composer.ComposerFactory.__init__(self,self)
+        Composer.__init__(self,self)
     def __call__(self, time, params = None):
         adsr = ADRS(time)
         if self.params is not None:
@@ -47,11 +47,11 @@ class ADRSFactory(composer.ComposerFactory):
 if __name__ == "__main__":
     from sys import stdin
     from sound import Sound
-    from sinosc import SinOscFactory
-    osc = SinOscFactory()
-    adsr = ADRSFactory()
-    factory = osc*adsr
-    generator = factory(0.0)
+    from sinosc import SinOscDef
+    osc_def = SinOscDef()
+    adsr_def = ADRSDef()
+    definition = osc_def*adsr_def
+    generator = definition(0.0)
     sound = Sound()
     sound.generator = generator
     sound.start()
