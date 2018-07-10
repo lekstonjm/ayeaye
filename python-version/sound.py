@@ -11,23 +11,25 @@ import math
 class Sound(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        self.start()
-        self.synthetizers = []
-
-    def run(self):
-        Gst.init(None)
-        
+        self.generator = None
         self.time = 0
         self.BYTES_PER_SAMPLE = 4
         self.CHANNELS = 2
         self.SAMPLE_SIZE = self.BYTES_PER_SAMPLE * self.CHANNELS 
         self.RATE = 44100
         self.dt = 1.0 / float(self.RATE)
-
+        self.started = False
+        self.initialize()
+    
+    def initialize(self):
+        Gst.init(None)
         gst_string = 'appsrc name=source ! capsfilter caps=audio/x-raw,rate=44100,channels=2,format=F32LE ! pulsesink'        
         self.player = Gst.parse_launch(gst_string)
         playersrc = self.player.get_by_name('source')
         playersrc.connect('need-data', self.needdata)
+
+    def run(self):
+        self.started = True
         self.loop = GLib.MainLoop()
         self.loop.run()
         
@@ -35,10 +37,7 @@ class Sound(threading.Thread):
         data = bytearray()
         sample_number = int(length / self.SAMPLE_SIZE)        
         for _i in range(0,sample_number):
-            value_float = 0.0
-            for synthetizer in self.synthetizers:
-                value_float = synthetizer.compute(self.time)
-                #math.sin(self.time * 2.0 * math.pi * 440.0) * 0.5
+            value_float = float(self.generator(self.time))
             if value_float > 1.0:
                 value_float = 1.0
             if value_float < -1.0:
@@ -57,8 +56,19 @@ class Sound(threading.Thread):
         self.loop.unref()
     
     def play(self):
+        if self.started == False:
+            self.start()
         self.player.set_state(Gst.State.PLAYING)        
     
     def pause(self):        
         self.player.set_state(Gst.State.PAUSED)        
 
+
+if __name__ == "__main__":
+    from sys import stdin
+    sound = Sound()
+    sound.generator = lambda time: math.sin(2.0*440.0*math.pi*time)
+    sound.start()
+    sound.play()
+    stdin.readline()
+    sound.shutdown()
