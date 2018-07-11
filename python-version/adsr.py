@@ -52,8 +52,8 @@ if __name__ == "__main__":
     adsr_def = ADRSDef()
     definition = osc_def*adsr_def
     generator = definition(0.0)
-    sound = Sound()
-    sound.generator = generator
+    sound = Sound(1)
+    sound.channels[0] = generator
     sound.start()
     sound.play()
     stdin.readline()
